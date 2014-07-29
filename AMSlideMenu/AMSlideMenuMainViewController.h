@@ -289,4 +289,10 @@ typedef enum {
  * @param indexPath destination ViewController's indexPath in menu
  */
 - (void)openContentViewControllerForMenu:(AMSlideMenu)menu atIndexPath:(NSIndexPath *)indexPath;
+
+/**
+ * Override this method for setting visible width for left menu when it is closed.
+ * @return The left menu width (Default will return 0 - completely closed)
+ */
+- (CGFloat)leftMenuClosedWidth;
 @end

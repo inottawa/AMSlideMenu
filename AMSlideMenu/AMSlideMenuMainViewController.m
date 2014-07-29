@@ -173,6 +173,11 @@ static NSMutableArray *allInstances;
     return 250;
 }
 
+- (CGFloat)leftMenuClosedWidth
+{
+	return 0;
+}
+
 - (CGFloat) openAnimationDuration
 {
     return 0.35f;
@@ -575,7 +580,7 @@ static NSMutableArray *allInstances;
         [self configureDarknessView];
     
     self.rightMenu.view.hidden = NO;
-    self.leftMenu.view.hidden = YES;
+    self.leftMenu.view.hidden = [self leftMenuClosedWidth] == 0;
     
     CGRect frame = self.currentActiveNVC.view.frame;
     frame.origin.x = -1 *[self rightMenuWidth];
@@ -616,7 +621,7 @@ static NSMutableArray *allInstances;
         [self.slideMenuDelegate leftMenuWillClose];
     
     CGRect frame = self.currentActiveNVC.view.frame;
-    frame.origin.x = 0;
+    frame.origin.x = [self leftMenuClosedWidth];
 
     [UIView animateWithDuration:animated ? self.closeAnimationDuration : 0 animations:^{
         self.currentActiveNVC.view.frame = frame;
@@ -633,7 +638,7 @@ static NSMutableArray *allInstances;
         }
         self.darknessView.alpha = 0;
     } completion:^(BOOL finished) {
-        
+		
         [self.overlayView removeFromSuperview];
         [self desableGestures];
         self.menuState = AMSlideMenuClosed;
@@ -644,7 +649,7 @@ static NSMutableArray *allInstances;
     }];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.closeAnimationDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.leftMenu.view.hidden = YES;
+        self.leftMenu.view.hidden = [self leftMenuClosedWidth] == 0;
     });
 }
 
@@ -659,7 +664,7 @@ static NSMutableArray *allInstances;
         [self.slideMenuDelegate rightMenuWillClose];
     
     CGRect frame = self.currentActiveNVC.view.frame;
-    frame.origin.x = 0;
+    frame.origin.x = [self leftMenuClosedWidth];
     
     [UIView animateWithDuration:animated ? self.closeAnimationDuration : 0 animations:^{
         self.currentActiveNVC.view.frame = frame;
@@ -688,7 +693,7 @@ static NSMutableArray *allInstances;
             [self.slideMenuDelegate rightMenuDidClose];
     }];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.closeAnimationDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.leftMenu.view.hidden = YES;
+        self.leftMenu.view.hidden = [self leftMenuClosedWidth] == 0;
     });
 }
 
@@ -1035,7 +1040,7 @@ static NSMutableArray *allInstances;
                 [self rightMenuWillReveal];
                 if (self.menuState == AMSlideMenuClosed)
                 {
-                    self.leftMenu.view.hidden = YES;
+                    self.leftMenu.view.hidden = [self leftMenuClosedWidth] == 0;
                     self.rightMenu.view.hidden = NO;
                 }
             }
