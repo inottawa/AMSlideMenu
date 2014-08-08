@@ -55,6 +55,10 @@
 #endif
 }
 
+- (NSString *)segueIdentifierForIndexPath:(NSIndexPath *)indexPath {
+	return @"";
+}
+
 
 /*----------------------------------------------------*/
 #pragma mark - TableView Delegate -

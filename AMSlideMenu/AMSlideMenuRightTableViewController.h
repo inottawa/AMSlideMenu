@@ -34,4 +34,6 @@
 
 - (void)openContentNavigationController:(UINavigationController *)nvc;
 
+- (NSString *)segueIdentifierForIndexPath:(NSIndexPath *)indexPath;
+
 @end

@@ -35,4 +35,6 @@
 // Only afor non storyboard use
 - (void)openContentNavigationController:(UINavigationController *)nvc;
 
+- (NSString *)segueIdentifierForIndexPath:(NSIndexPath *)indexPath;
+
 @end
