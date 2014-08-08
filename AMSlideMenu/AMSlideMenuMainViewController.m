@@ -163,6 +163,14 @@ static NSMutableArray *allInstances;
 #pragma mark - Datasource -
 /*----------------------------------------------------*/
 
+- (AMSlideType)leftMenuSlideType {
+	return AMSlideTypeUnder;
+}
+
+- (AMSlideType)rightMenuSlideType {
+	return AMSlideTypeUnder;
+}
+
 - (CGFloat)leftMenuWidth
 {
     return 250;
@@ -582,11 +590,22 @@ static NSMutableArray *allInstances;
     self.rightMenu.view.hidden = NO;
     self.leftMenu.view.hidden = [self leftMenuClosedWidth] == 0;
     
-    CGRect frame = self.currentActiveNVC.view.frame;
-    frame.origin.x = -1 *[self rightMenuWidth];
-    
+	CGRect frame;
+	UIView *viewToAnimate;
+	if (self.rightMenuSlideType == AMSlideTypeOver) {
+		[self.view bringSubviewToFront:self.rightMenu.view];
+		frame = self.rightMenu.view.frame;
+		CGRect bounds = self.view.bounds;
+		frame.origin.x = bounds.size.width - [self rightMenuWidth];
+		viewToAnimate = self.rightMenu.view;
+	} else {
+		frame = self.currentActiveNVC.view.frame;
+		frame.origin.x = -1 *[self rightMenuWidth];
+		viewToAnimate = self.currentActiveNVC.view;
+	}
+	
     [UIView animateWithDuration:animated ? self.openAnimationDuration : 0 animations:^{
-        self.currentActiveNVC.view.frame = frame;
+        viewToAnimate.frame = frame;
         
         if ([self deepnessForRightMenu])
         {
@@ -663,11 +682,22 @@ static NSMutableArray *allInstances;
     if (self.slideMenuDelegate && [self.slideMenuDelegate respondsToSelector:@selector(rightMenuWillClose)])
         [self.slideMenuDelegate rightMenuWillClose];
     
-    CGRect frame = self.currentActiveNVC.view.frame;
-    frame.origin.x = [self leftMenuClosedWidth];
+	UIView *viewToAnimate;
+	CGRect frame;
+	
+	if (self.rightMenuSlideType == AMSlideTypeOver) {
+		viewToAnimate = self.rightMenu.view;
+		frame = viewToAnimate.frame;
+		frame.origin.x = self.view.frame.size.width;
+	} else {
+		viewToAnimate = self.currentActiveNVC.view;
+		frame = viewToAnimate.frame;
+		frame.origin.x = [self leftMenuClosedWidth];
+	}
+    
     
     [UIView animateWithDuration:animated ? self.closeAnimationDuration : 0 animations:^{
-        self.currentActiveNVC.view.frame = frame;
+        viewToAnimate.frame = frame;
 
         if ([self deepnessForRightMenu])
         {
@@ -683,7 +713,7 @@ static NSMutableArray *allInstances;
         self.darknessView.alpha = 0;
     } completion:^(BOOL finished) {
         
-        
+        [self.view sendSubviewToBack:self.rightMenu.view];
         [self.overlayView removeFromSuperview];        
         [self desableGestures];
         self.menuState = AMSlideMenuClosed;
@@ -762,8 +792,15 @@ static NSMutableArray *allInstances;
         [self.currentActiveNVC.view removeFromSuperview];
     }
     self.currentActiveNVC = nvc;
-    
-    [self.view addSubview:nvc.view];
+	
+    if (self.menuState == AMSlideMenuRightOpened && self.rightMenuSlideType == AMSlideTypeOver) {
+		[self.view insertSubview:nvc.view belowSubview:self.rightMenu.view];
+	} else if (self.menuState == AMSlideMenuLeftOpened && self.leftMenuSlideType == AMSlideTypeOver) {
+		[self.view insertSubview:nvc.view belowSubview:self.leftMenu.view];
+	} else {
+		[self.view addSubview:nvc.view];
+	}
+	
     [self configureDarknessView];
 
     if (![UIApplication sharedApplication].statusBarHidden)

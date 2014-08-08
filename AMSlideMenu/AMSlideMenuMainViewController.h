@@ -45,6 +45,11 @@ typedef enum {
     AMSlideMenuRightOpened,
 } AMSlideMenuState;
 
+typedef enum {
+    AMSlideTypeUnder,
+    AMSlideTypeOver,
+} AMSlideType;
+
 @protocol AMSlideMenuMultipleStoryboarding <NSObject>
 
 @optional
@@ -93,6 +98,18 @@ typedef enum {
 + (NSArray *)allInstances;
 
 #pragma mark - Overridable Public Methods
+
+/**
+ * Override this method for setting the way the left menu appears.
+ * @return slide type (default is 'under')
+ */
+- (AMSlideType)leftMenuSlideType;
+
+/**
+ * Override this method for setting the way the right menu appears.
+ * @return slide type (default is 'under')
+ */
+- (AMSlideType)rightMenuSlideType;
 
 /**
  * Override this method for customize left menu button.
