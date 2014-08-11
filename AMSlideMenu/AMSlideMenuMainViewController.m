@@ -171,6 +171,10 @@ static NSMutableArray *allInstances;
 	return AMSlideTypeUnder;
 }
 
+- (CGFloat)rightMenuOffsetAdjustment {
+	return 0;
+}
+
 - (CGFloat)leftMenuWidth
 {
     return 250;
@@ -688,7 +692,7 @@ static NSMutableArray *allInstances;
 	if (self.rightMenuSlideType == AMSlideTypeOver) {
 		viewToAnimate = self.rightMenu.view;
 		frame = viewToAnimate.frame;
-		frame.origin.x = self.view.frame.size.width;
+		frame.origin.x = self.view.frame.size.width - [self rightMenuOffsetAdjustment];
 	} else {
 		viewToAnimate = self.currentActiveNVC.view;
 		frame = viewToAnimate.frame;

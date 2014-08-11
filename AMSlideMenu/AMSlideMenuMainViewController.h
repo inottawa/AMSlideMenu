@@ -112,6 +112,12 @@ typedef enum {
 - (AMSlideType)rightMenuSlideType;
 
 /**
+ * Override this method for adjusting menu width if there's a button.
+ * @return slide type (default is 0)
+ */
+- (CGFloat)rightMenuOffsetAdjustment;
+
+/**
  * Override this method for customize left menu button.
  * @param Left button instance to encapsulate
  */
