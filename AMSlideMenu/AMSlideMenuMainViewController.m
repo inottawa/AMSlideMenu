@@ -692,7 +692,7 @@ static NSMutableArray *allInstances;
 	if (self.rightMenuSlideType == AMSlideTypeOver) {
 		viewToAnimate = self.rightMenu.view;
 		frame = viewToAnimate.frame;
-		frame.origin.x = self.view.frame.size.width - [self rightMenuOffsetAdjustment];
+		frame.origin.x = self.view.frame.size.width + [self rightMenuOffsetAdjustment];
 	} else {
 		viewToAnimate = self.currentActiveNVC.view;
 		frame = viewToAnimate.frame;
