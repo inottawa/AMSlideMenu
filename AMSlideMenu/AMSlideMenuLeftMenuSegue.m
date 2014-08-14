@@ -53,6 +53,7 @@
         leftMenu.view.frame = CGRectMake(0,0,bounds.size.width,bounds.size.height);
     });
 
+	leftMenu.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [mainVC.view addSubview:leftMenu.view];
     
     [leftMenu.navigationController setNavigationBarHidden:YES];

@@ -92,9 +92,6 @@ static NSMutableArray *allInstances;
 {
     if ([self.currentActiveNVC shouldAutorotate])
     {
-        CGRect bounds = self.view.bounds;
-        self.rightMenu.view.frame = CGRectMake(bounds.size.width - [self rightMenuWidth],0,[self rightMenuWidth],bounds.size.height);
-        self.leftMenu.view.frame = CGRectMake(0,0,bounds.size.width,bounds.size.height);
         if (self.overlayView && self.overlayView.superview)
         {
             self.overlayView.frame = CGRectMake(0, 0, self.currentActiveNVC.view.frame.size.width, self.currentActiveNVC.view.frame.size.height);
@@ -692,7 +689,7 @@ static NSMutableArray *allInstances;
 	if (self.rightMenuSlideType == AMSlideTypeOver) {
 		viewToAnimate = self.rightMenu.view;
 		frame = viewToAnimate.frame;
-		frame.origin.x = self.view.frame.size.width + [self rightMenuOffsetAdjustment];
+		frame.origin.x = self.view.bounds.size.width + [self rightMenuOffsetAdjustment];
 	} else {
 		viewToAnimate = self.currentActiveNVC.view;
 		frame = viewToAnimate.frame;

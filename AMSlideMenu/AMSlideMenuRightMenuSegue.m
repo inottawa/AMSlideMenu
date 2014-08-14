@@ -52,7 +52,8 @@
 			rightMenu.view.frame = CGRectMake(bounds.size.width - [mainVC rightMenuWidth],0,[mainVC rightMenuWidth],bounds.size.height);
 		}
     });
-    [mainVC.view addSubview:rightMenu.view];
+	rightMenu.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin;
+    [mainVC.view insertSubview:rightMenu.view atIndex:0];
     NSIndexPath *initialIndexPath = [mainVC initialIndexPathForRightMenu];
     
     [rightMenu.navigationController setNavigationBarHidden:YES];
