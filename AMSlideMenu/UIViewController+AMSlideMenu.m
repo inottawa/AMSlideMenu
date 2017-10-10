@@ -137,7 +137,7 @@
     // Enabling pan gesture for left and right menus
     AMSlideMenuMainViewController *mainVC = [AMSlideMenuMainViewController getInstanceForVC:self];
     mainVC.leftPanDisabled = NO;
-    mainVC.rightPanDisabled = NO;
+    mainVC.rightPanDisabled = YES;
 
     // Call original viewWillDisappear method
     [self my_viewWillDisappear:animated];
