@@ -344,6 +344,10 @@ static NSMutableArray *allInstances;
         if (isHorizontalGesture) {
             BOOL directionIsLeft = velocity.x < 0;
             if (directionIsLeft) {
+		    // IOST-1242 Enable edit cell
+                self.panGesture.enabled = NO;
+                self.panGesture.enabled = YES;
+                // end
                 if (self.rightMenu) {
                     return NO;
                 } else {
